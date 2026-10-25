@@ -200,6 +200,10 @@ export class RealAuthService implements AuthService {
         },
       ];
     }
+    const token = storage.get<string | null>(STORAGE_KEYS.AUTH_TOKEN, null);
+    if (!token || token === "mock_jwt_token_initial_demo") {
+      return [];
+    }
     try {
       const result = await apiClient.get<Workspace[]>("/workspaces");
       return Array.isArray(result) ? result : [];

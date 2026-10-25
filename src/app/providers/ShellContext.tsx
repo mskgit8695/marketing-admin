@@ -5,6 +5,7 @@ import { type Workspace, type User } from "@/types";
 import { STORAGE_KEYS } from "@/constants";
 import { storage } from "@/services/storage/local-storage";
 import { authApi } from "@/services/api/auth.api";
+import { useAuth } from "@/features/auth/context/AuthContext";
 
 export interface NotificationItem {
   id: string;
@@ -117,15 +118,21 @@ export function ShellProvider({ children }: { children: ReactNode }) {
 
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
 
-  // Sync workspace list from remote API on mount
+  const { isAuthenticated, token } = useAuth();
+
+  // Sync workspace list from remote API only if authenticated
   useEffect(() => {
+    if (!isAuthenticated || !token || token === "mock_jwt_token_initial_demo") {
+      return;
+    }
+
     authApi.getWorkspaces().then((remote) => {
       if (remote && remote.length > 0) {
         setWorkspacesList(remote);
         storage.set("mock_workspaces", remote);
       }
     }).catch(() => {});
-  }, []);
+  }, [isAuthenticated, token]);
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed((prev) => {
