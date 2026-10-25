@@ -1,0 +1,49 @@
+/* Global design tokens & utilities (glass‑morphism, gradients, animations) */
+:root {
+  /* Primary/secondary palette – HSL for easy theming */
+  --color-primary: 262 80% 50%;   /* Indigo‑500 */
+  --color-accent: 48 90% 55%;    /* Amber‑500 */
+  --color-bg: 210 10% 10%;       /* Dark slate */
+  --color-bg-glass: rgba(255,255,255,0.04);
+}
+
+/* Gradient background utility for shells */
+.bg-gradient-glass {
+  background: linear-gradient(135deg,
+    hsl(var(--color-bg) / 0.95),
+    hsl(var(--color-primary) / 0.85),
+    hsl(var(--color-accent) / 0.75));
+}
+
+/* Glass‑morphism utility */
+.glass {
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Fade‑in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* Button hover transition */
+.btn-primary {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.btn-primary:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(255,255,255,0.12);
+}
+
+/* Table utilities – striped rows and hover */
+.table-striped tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.02);
+}
+.table-striped tbody tr:hover {
+  background: rgba(255,255,255,0.04);
+}
